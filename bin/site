@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+project_root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+ruby_bin="$project_root/.ruby/bin/ruby"
+bundle_bin="$project_root/.ruby/bin/bundle"
+
+if [[ ! -x "$ruby_bin" || ! -x "$bundle_bin" ]]; then
+  ruby_bin="$(command -v ruby || true)"
+  bundle_bin="$(command -v bundle || true)"
+  if [[ -z "$ruby_bin" || -z "$bundle_bin" ]] ||
+    ! "$ruby_bin" -e 'exit(RUBY_VERSION == "3.1.6" ? 0 : 1)'; then
+    cat >&2 <<'EOF'
+Ruby 3.1.6 is required.
+
+Install it into .ruby with ruby-build, or activate a Ruby manager that honors
+.ruby-version. This project never requires replacing /usr/bin/ruby.
+EOF
+    exit 1
+  fi
+fi
+
+export PATH="$(dirname "$ruby_bin"):$PATH"
+export BUNDLE_GEMFILE="$project_root/Gemfile"
+export BUNDLE_PATH="$project_root/vendor/bundle"
+
+command_name="${1:-help}"
+if [[ $# -gt 0 ]]; then
+  shift
+fi
+
+case "$command_name" in
+  setup)
+    exec "$bundle_bin" install --jobs 4 --retry 3 "$@"
+    ;;
+  build)
+    export JEKYLL_ENV="${JEKYLL_ENV:-production}"
+    exec "$bundle_bin" exec jekyll build "$@"
+    ;;
+  serve)
+    export JEKYLL_ENV="${JEKYLL_ENV:-development}"
+    exec "$bundle_bin" exec jekyll serve "$@"
+    ;;
+  audit)
+    output_dir="${1:-$project_root/_baseline/current}"
+    exec "$bundle_bin" exec ruby "$project_root/bin/site_audit.rb" "$project_root/_site" "$output_dir"
+    ;;
+  baseline)
+    export JEKYLL_ENV=production
+    "$bundle_bin" exec jekyll build
+    exec "$bundle_bin" exec ruby "$project_root/bin/site_audit.rb" "$project_root/_site" "$project_root/_baseline/current"
+    ;;
+  compare)
+    export JEKYLL_ENV=production
+    "$bundle_bin" exec jekyll build
+    comparison_dir="$(mktemp -d "${TMPDIR:-/tmp}/academic-website-baseline.XXXXXX")"
+    trap 'rm -rf "$comparison_dir"' EXIT
+    "$bundle_bin" exec ruby "$project_root/bin/site_audit.rb" "$project_root/_site" "$comparison_dir"
+    "$bundle_bin" exec ruby "$project_root/bin/site_compare.rb" "$project_root/_baseline/current" "$comparison_dir"
+    ;;
+  help|-h|--help)
+    cat <<'EOF'
+Usage: bin/site <command> [options]
+
+  setup       Install locked gems into vendor/bundle
+  build       Build the production site into _site
+  serve       Preview at http://127.0.0.1:4000 (pass --livereload to opt in)
+  audit DIR   Scan the existing _site output (default: _baseline/current)
+  baseline    Build and refresh the committed baseline manifests
+  compare     Build and compare output with the committed baseline
+EOF
+    ;;
+  *)
+    echo "Unknown command: $command_name" >&2
+    exit 2
+    ;;
+esac

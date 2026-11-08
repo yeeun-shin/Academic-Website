@@ -1,0 +1,9 @@
+generated_documents: 51
+html_documents: 49
+css_js_assets: 35
+total_files: 453
+total_bytes: 608824091
+internal_link_references: 330
+missing_internal_links: 0
+asset_references: 792
+missing_assets: 51
