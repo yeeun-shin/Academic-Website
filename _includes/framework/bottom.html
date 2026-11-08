@@ -8,6 +8,9 @@
         <div class="copyright">
           {{ site.bottom.copyright_text | markdownify | remove: '<p>' | remove: '</p>' }}
         </div>
+        {% if site.cookie_banner.enabled and site.cookie_banner.show_manage_cookies_at_bottom %}
+          <a href="#" data-cc="c-settings">Cookie preferences</a>
+        {% endif %}
       </div>
     </div>
   </div>

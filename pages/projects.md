@@ -2,6 +2,7 @@
 layout: projects
 title: Projects
 permalink: "/projects/"
+published: false
 
 projects:
   heading: "HCI Research" # "Projects"

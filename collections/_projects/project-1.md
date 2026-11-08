@@ -1,5 +1,6 @@
 ---
 layout: project-left # alternative layouts: project, project-left, project-right, project-top
+published: false
 title: "Desk Console: Augmenting 3D Virtual Controls on Physical Desks for Immersive Authoring"
 description: "Breathing new life into old industrial estates"
 date: 2025-04-26

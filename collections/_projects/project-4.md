@@ -1,5 +1,6 @@
 ---
 layout: project-top
+published: false
 title: "ProjecString: Turning an Everyday String Curtain into an Interactive Projection Display"
 description: "An open source machine learning library written in Python"
 date: 2022-08-20

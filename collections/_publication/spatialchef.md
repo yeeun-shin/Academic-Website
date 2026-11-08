@@ -4,7 +4,7 @@ title: "Spatial Chef: A Spatial Transforming VR Game with Full Body Interaction"
 
 authors:
   - name: Yeeun Shin
-    link: "https://yeeun-shin.com/" 
+    link: "https://yeeunshin.com/"
     equal_contrib: true
   - name: Yewon Lee
     equal_contrib: true

@@ -2,7 +2,7 @@
 # Jekyll Config (merged & cleaned)
 # -------------------
 baseurl: ""
-url: "https://yeeun-shin.com"
+url: "https://yeeunshin.com"
 permalink: pretty
 
 # Markdown & highlight
@@ -18,36 +18,15 @@ kramdown:
       line_numbers: false
       start_line: 1
 
-# Plugins (use v2 pagination; include scholar)
+# Plugins used by the current build
 plugins:
-  - jekyll-environment-variables
-  - jekyll-archives-v2
   - jekyll-email-protect
-  - jekyll-feed
-  - jekyll-get-json
-  - jekyll-imagemagick
-  - jekyll-jupyter-notebook
   - jekyll-link-attributes
   - jekyll-minifier
-  - jekyll-paginate-v2
   - jekyll-regex-replace
-  - jekyll-scholar       # ← 표준 표기 권장 (jekyll/scholar 대신)
+  - jekyll-scholar
   - jekyll-sitemap
-  - jekyll-tabs
   - jekyll-terser
-  - jekyll-toc
-  - jekyll-twitter-plugin
-  - jemoji
-
-# v2 Pagination (구버전 paginate/ paginate_path 제거)
-pagination:
-  enabled: true
-  per_page: 6
-  permalink: "/blog/page:num/"
-  sort_field: "date"
-  sort_reverse: true
-  title: ":title - page :num"
-  # collection: "posts"  # 기본이 posts라면 생략 가능
 
 # Collections
 collections_dir: collections
@@ -55,9 +34,6 @@ collections:
   projects:
     output: true
     permalink: /:collection/:path/
-  posts:
-    output: true
-    permalink: /blog/:path/
   gallery:
     output: true
     permalink: /crafting/:path/ #
@@ -81,19 +57,9 @@ defaults:
     values:
       layout: project
   - scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-      weight: 999
-  - scope:
       path: "images"
     values:
       image: true
-  - scope:
-      path: "categories"
-    values:
-      permalink: /category/:basename/
   - scope:
       path: "pages"
     values:
@@ -109,28 +75,13 @@ sass:
   load_paths:
     - _sass
 
-# Include / Exclude / Keep (중복 제거 & 병합)
-include: ["_pages", "_scripts"]
+# Build exclusions and GitHub Pages passthrough files
 exclude:
   - Gemfile
   - Gemfile.lock
-  - README.md
   - LICENSE
-  - netlify.toml
+  - THIRD_PARTY_NOTICES.md
   - bin/
-  - CONTRIBUTING.md
-  - CUSTOMIZE.md
-  - Dockerfile
-  - docker-compose.yml
-  - docker-compose-slim.yml
-  - FAQ.md
-  - INSTALL.md
-  - lighthouse_results/
-  - package.json
-  - package-lock.json
-  - _pages/about_einstein.md
-  - purgecss.config.js
-  - readme_preview/
   - vendor
 keep_files:
   - CNAME
@@ -138,7 +89,6 @@ keep_files:
 
 # Theme Config
 title: "Yeeun Shin"
-category_dir: category
 
 colors:
   primary_bg: "#f8f8f8"
@@ -165,13 +115,10 @@ colors:
   header_text_dark: "#fdfcf9"
 
 fonts:
-  use_google_fonts: false
-  google_fonts_url: "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=Fira+Mono&display=swap"
-  use_self_hosted_fonts: true
-  heading: "'Inter', sans-serif"
-  base: "'Inter', sans-serif"
+  heading: "'Inter'"
+  base: "'Inter'"
   monospace: "'Fira Mono'"
-  logo: "'Inter', sans-serif"
+  logo: "'Inter'"
 
 logo:
   logo_text: "YEEUN SHIN."
@@ -194,8 +141,8 @@ header:
 open_graph:
   meta_opengraph_type: "website"
   meta_twitter_card: "summary"
-  meta_twitter_site: "@zerostaticio"
-  meta_twitter_creator: "@zerostaticio"
+  meta_twitter_site: "@yeeun_yes"
+  meta_twitter_creator: "@yeeun_yes"
 
 darkmode:
   enable_dark_mode: true
@@ -214,22 +161,9 @@ analytics:
   umami_data_website_id: ""
   umami_src: ""
 
-comments:
-  commento:
-    enabled: true
-  disqus:
-    shortname: ""
-
-# newsletter:
-#   mailchimp:
-#     form_action_url: "https://zerostatic.us21.list-manage.com/subscribe/post?u=798e19886b83aaab346734382&amp;id=f1c526a772&amp;f_id=0027e3e6f0"
-#     form_title: "Let's keep in touch"
-
 contact_form:
-  use_netlify_form: false
   use_formspree_form: true
   formspree_endpoint: https://formspree.io/f/moqyklqv
-  netlify_form_name: "contact"
 
 menu:
   show_dropdown_items_in_mobile_menu: false
@@ -237,22 +171,10 @@ menu:
 
 footer:
   enable_footer: false
-  footer_title: "Jekyll Curate"
-  footer_description: "Curate is a creative portfolio for Jekyll by Zerostatic Themes."
-  enable_social_media_icons: true
-  enable_contact_details: false
-  enable_menu_footer_primary: true
-  enable_menu_footer_secondary: true
-  enable_menu_footer_tertiary: false
-  footer_primary_menu_title: "Our Projects"
-  footer_secondary_menu_title: "Company"
-  footer_tertiary_menu_title: "Other"
 
 bottom:
   enable_bottom: true
-  enable_bottom_menu: false
   copyright_text: "© 2025 Yeeun Shin."
-  show_rss_icon: true
 
 # -------------------
 # Jekyll Scholar (migrated)
@@ -282,13 +204,6 @@ scholar:
   type: "project"
   repository: "publications"
 
-# Publication badges & options from al-folio
-enable_publication_badges:
-  altmetric: true
-  dimensions: true
-  google_scholar: true
-  inspirehep: true
-
 filtered_bibtex_keywords:
   [abbr, abstract, additional_info, altmetric, annotation, arxiv, award, award_name,
    bibtex_show, blog, code, google_scholar_id, html, inspirehep_id, pdf, poster, preview,
@@ -297,20 +212,3 @@ filtered_bibtex_keywords:
 # max_author_limit: 10
 more_authors_animation_delay: 10
 enable_publication_thumbnails: true
-
-# Extras from al-folio you said you want
-bib_search: true
-enable_math: true
-
-third_party_libraries:
-  download: false
-  venobox:
-    version: 2.1.8
-    url:
-      css: https://cdn.jsdelivr.net/npm/venobox@2.1.8/dist/venobox.min.css
-      js: https://cdn.jsdelivr.net/npm/venobox@2.1.8/dist/venobox.min.js
-    integrity:
-      css: sha384-AY1r9X5t8vI/2f2IqI28oSr1y6Q2i2ZlftZOJ3O90i0Am222dM6hW2v2iTBAZ2Te
-      js: sha384-vB3ATB2oD3brpBBd+G/a7tC9pcqA42Mv/T0sM32a2d0LzB2l3yZf/30hJbJ2iK2l
-
-back_to_top: true
