@@ -1,0 +1,7 @@
+{% assign element = include.element %}
+{% case element.type %}
+  {% when 'heading' %}<h3>{{ element.content }}</h3>
+  {% when 'text' %}<div class="research-rich-text">{{ element.content | markdownify }}</div>
+  {% when 'image' %}
+    <figure><a href="{{ element.path | relative_url }}"><img src="{{ element.path | relative_url }}" alt="{{ element.alt }}"></a>{% if element.caption %}<figcaption>{{ element.caption }}</figcaption>{% endif %}</figure>
+{% endcase %}

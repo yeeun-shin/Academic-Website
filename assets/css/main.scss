@@ -6,6 +6,7 @@
 :root {
   --font-family-base: {{ site.fonts.base }}, sans-serif;
   --font-family-heading: {{ site.fonts.heading }}, sans-serif;
+  --font-family-display: {{ site.fonts.display | default: "'Lora'" }}, Georgia, "Times New Roman", serif;
   --font-family-monospace: {{ site.fonts.monospace }}, monospace;
   --font-family-logo: {{ site.fonts.logo }}, sans-serif;
 

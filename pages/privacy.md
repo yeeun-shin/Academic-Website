@@ -15,7 +15,7 @@ This is a statically generated Jekyll site hosted with GitHub Pages. When you vi
 
 The production site is configured to use Google Analytics 4 with measurement ID `G-0RLB95W610`. Analytics scripts are blocked until you opt in through the cookie banner. If you consent, Google Analytics may set first-party cookies beginning with `_ga` and process usage information such as page visits, approximate location, device/browser information, and interactions. See [Google's privacy information](https://policies.google.com/privacy) and [Google Analytics data practices](https://support.google.com/analytics/answer/6004245).
 
-The consent manager stores your choice in a necessary cookie named `cc_cookie` for up to 182 days. You can reopen its settings from the cookie-preferences control and withdraw analytics consent. Rejecting analytics does not prevent access to the site.
+The consent manager stores your choice in a necessary cookie named `cc_cookie` for up to 182 days. You can <a href="#" data-cc="c-settings">change your cookie preferences</a> and withdraw analytics consent. Rejecting analytics does not prevent access to the site.
 
 ## Fonts, scripts, and embedded media
 

@@ -1,8 +1,10 @@
 ---
 layout: basic
+body_classes: page-basic page-publications
 title: Publications
 permalink: /publications/
 description: Peer-reviewed publications. * denotes equal contribution.
+wide_content: true
 ---
 
 <div class="publications">

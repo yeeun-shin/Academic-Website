@@ -1,0 +1,153 @@
+---
+layout: default
+body_classes: page-research-publication
+---
+
+<article class="research-publication{% if page.additional_content %} has-legacy-body{% endif %}">
+  <div class="container research-publication-container">
+    <header class="research-publication-header">
+      {% if page.conference %}<p class="research-publication-venue">{{ page.conference }}</p>{% endif %}
+      <h1>{{ page.title }}</h1>
+
+      {% if page.authors %}
+        <p class="research-publication-authors">
+          {% for author in page.authors %}
+            <span{% if author.name == site.title %} class="author-self"{% endif %}>
+              {% if author.link %}<a href="{{ author.link }}">{% endif %}{{ author.name }}{% if author.link %}</a>{% endif %}{% if author.equal_contrib %}<sup>*</sup>{% endif %}
+            </span>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
+      {% endif %}
+
+      {% if page.equal_contrib_notice %}<p class="research-publication-note"><sup>*</sup> Equal contribution</p>{% endif %}
+
+      {% if page.awards %}
+        <div class="research-publication-awards">
+          {% for award in page.awards %}
+            <a href="{{ award.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-award" aria-hidden="true"></i>{{ award.label }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <nav class="research-publication-links" aria-label="Publication resources">
+        {% if page.paper_url %}<a href="{{ page.paper_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-link" aria-hidden="true"></i>DOI</a>{% endif %}
+        {% if page.pdf_url %}<a href="{{ page.pdf_url | relative_url }}" target="_blank"><i class="fa-solid fa-file-lines" aria-hidden="true"></i>PDF</a>{% endif %}
+        {% if page.video_url %}<a href="{{ page.video_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-play" aria-hidden="true"></i>Video</a>{% endif %}
+        {% if page.code_url %}<a href="{{ page.code_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-code" aria-hidden="true"></i>Code</a>{% endif %}
+        {% if page.slides_url %}<a href="{{ page.slides_url | relative_url }}" target="_blank"><i class="fa-solid fa-display" aria-hidden="true"></i>Slides</a>{% endif %}
+      </nav>
+    </header>
+
+    <section class="research-publication-abstract{% if page.abstract_side_gallery and page.detail_gallery %} has-side-gallery{% endif %}" aria-labelledby="abstract-heading">
+      <div class="research-abstract-copy">
+        <h2 id="abstract-heading">Abstract</h2>
+        <div class="research-publication-abstract-text">{{ content }}</div>
+      </div>
+      {% if page.abstract_side_gallery and page.detail_gallery %}
+        <div class="research-abstract-gallery detail-gallery-grid-right" aria-label="Project media">
+          {% for image_path in page.detail_gallery %}
+            <a href="{{ image_path | relative_url }}"><img src="{{ image_path | relative_url }}" alt="{{ page.title | escape }} project media {{ forloop.index }}"></a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    {% if page.additional_content %}
+      </div>
+      <div class="research-publication-legacy-body">
+        {% include research/legacy-publication-body.html %}
+      </div>
+    {% else %}
+    {% if page.teaser_video or page.teaser_image %}
+      <section class="research-publication-feature" aria-label="Project overview media">
+        {% if page.teaser_video %}
+          <video autoplay muted loop controls playsinline preload="metadata">
+            <source src="{{ page.teaser_video | relative_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% elsif page.teaser_image %}
+          <img src="{{ page.teaser_image | relative_url }}" alt="{{ page.teaser_image_alt | default: page.title }}">
+        {% endif %}
+        {% if page.teaser_caption %}<p class="research-media-caption">{{ page.teaser_caption }}</p>{% endif %}
+      </section>
+    {% endif %}
+
+    {% if page.detail_gallery and page.abstract_side_gallery != true %}
+      <section class="research-media-grid detail-gallery-grid-right" style="--research-grid-columns: {{ page.detail_gallery_columns | default: 2 }}" aria-label="Project media">
+        {% for image_path in page.detail_gallery %}
+          <a href="{{ image_path | relative_url }}"><img src="{{ image_path | relative_url }}" alt="{{ page.title }} project media {{ forloop.index }}"></a>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% assign research_content_blocks = page.additional_content | default: page.content_blocks %}
+    {% if research_content_blocks %}
+      <div class="research-publication-content">
+        {% for block in research_content_blocks %}
+          {% include research/content-block.html block=block %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if page.youtube_id %}
+      <section class="research-publication-section">
+        <h2 class="research-video-heading">Video Presentation</h2>
+        <div class="research-video-embed"><iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" title="{{ page.title }} video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      </section>
+    {% endif %}
+
+    {% if page.post_video_image %}
+      <figure class="research-publication-wide-figure">
+        <img src="{{ page.post_video_image | relative_url }}" alt="{{ page.post_video_image_alt | default: page.title }}">
+        {% if page.post_video_image_caption %}<figcaption>{{ page.post_video_image_caption }}</figcaption>{% endif %}
+      </figure>
+    {% endif %}
+
+    {% if page.image_carousel %}
+      <section class="research-publication-section research-publication-carousel">
+        {% if page.carousel_title %}<h2>{{ page.carousel_title }}</h2>{% endif %}
+        <div id="results-carousel" class="carousel results-carousel">
+          {% for item in page.image_carousel %}
+            <div class="item">
+              <a href="{{ item.image | relative_url }}"><img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title }}"></a>
+              {% if item.caption %}<p class="research-media-caption">{{ item.caption }}</p>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if page.video_carousel %}
+      <section class="research-publication-section research-publication-carousel">
+        <h2>More examples</h2>
+        <div id="video-carousel" class="carousel results-carousel">
+          {% for item in page.video_carousel %}
+            <div class="item"><video autoplay controls muted loop playsinline><source src="{{ item.video | relative_url }}" type="video/mp4"></video></div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if page.media_coverage %}
+      <section class="research-bibtex research-coverage" aria-labelledby="research-coverage-heading">
+        <h2 id="research-coverage-heading" class="bibtex-heading">Press</h2>
+        <ul class="research-coverage-list">
+          {% for article in page.media_coverage %}
+            <li><a href="{{ article.url | escape }}" target="_blank" rel="noopener noreferrer"><span class="research-coverage-outlet">{{ article.outlet | escape }}</span> <span class="research-coverage-title">{{ article.title | escape }}</span><span class="research-coverage-arrow" aria-hidden="true">↗</span></a></li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if page.bibtex %}
+      <section class="research-bibtex" aria-labelledby="research-bibtex-heading">
+        <h2 id="research-bibtex-heading" class="bibtex-heading">BibTeX</h2>
+        <div class="bibtex-code-block">
+          <button type="button" class="bibtex-copy" aria-label="Copy BibTeX citation">Copy</button>
+          <pre><code>{{ page.bibtex | escape }}</code></pre>
+        </div>
+      </section>
+    {% endif %}
+  </div>
+    {% endif %}
+</article>

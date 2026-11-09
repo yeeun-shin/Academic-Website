@@ -1,0 +1,20 @@
+{% assign block = include.block %}
+<section class="research-content-block research-content-block-{{ block.type }} {{ block.class }}">
+  {% case block.type %}
+    {% when 'main-heading' %}<h2>{{ block.text }}</h2>
+    {% when 'heading' %}<h3>{{ block.text }}</h3>
+    {% when 'paragraph' %}<div class="research-rich-text">{{ block.text | markdownify }}</div>
+    {% when 'image' %}
+      <figure><a href="{{ block.path | relative_url }}"><img src="{{ block.path | relative_url }}" alt="{{ block.alt }}"></a>{% if block.caption %}<figcaption>{{ block.caption }}</figcaption>{% endif %}</figure>
+    {% when 'markdown' %}<div class="research-markdown-gallery gallery-item-content">{{ block.content | markdownify }}</div>
+    {% when 'image_grid' %}{% include framework/image_grid.html grid=block.grid %}
+    {% when 'columns-50-50' %}
+      <div class="research-columns research-columns-2"><div>{% for element in block.left.elements %}{% include research/content-element.html element=element %}{% endfor %}</div><div>{% for element in block.right.elements %}{% include research/content-element.html element=element %}{% endfor %}</div></div>
+    {% when 'columns-66-33' %}
+      <div class="research-columns research-columns-66-33"><div>{% for element in block.left.elements %}{% include research/content-element.html element=element %}{% endfor %}</div><div>{% for element in block.right.elements %}{% include research/content-element.html element=element %}{% endfor %}</div></div>
+    {% when 'columns-33-66' %}
+      <div class="research-columns research-columns-33-66"><div>{% for element in block.left.elements %}{% include research/content-element.html element=element %}{% endfor %}</div><div>{% for element in block.right.elements %}{% include research/content-element.html element=element %}{% endfor %}</div></div>
+    {% when 'columns-33-33-33' %}
+      <div class="research-columns research-columns-3"><div>{% for element in block.left.elements %}{% include research/content-element.html element=element %}{% endfor %}</div><div>{% for element in block.middle.elements %}{% include research/content-element.html element=element %}{% endfor %}</div><div>{% for element in block.right.elements %}{% include research/content-element.html element=element %}{% endfor %}</div></div>
+  {% endcase %}
+</section>

@@ -95,30 +95,31 @@ colors:
   primary_bg_2: "#0d042b"
   primary_bg_3: "#CDD9E4"
   primary_text: "#fdfcf9"
-  base_bg: "#f8f8f8"
+  base_bg: "#FFFFFF"
   base_bg_2: "#F1F3F5"
-  base_bg_3: "#D2D9DF"
-  base_text: "#0d042b"
-  base_text_2: "#3b364c"
-  logo_text: "#0d042b"
-  header_text: "#0d042b"
+  base_bg_3: "#F4F4F5"
+  base_text: "#171717"
+  base_text_2: "#71717A"
+  logo_text: "#171717"
+  header_text: "#171717"
   primary_bg_dark: "#fdfcf9"
   primary_bg_2_dark: "#fdfcf9"
   primary_bg_3_dark: "#fdfcf9"
   primary_text_dark: "#0b0326"
-  base_bg_dark: "#0b0326"
-  base_bg_2_dark: "#150c32"
-  base_bg_3_dark: "#251654"
-  base_text_dark: "#f5f5ec"
-  base_text_2_dark: "#929eaf"
-  logo_text_dark: "#fdfcf9"
-  header_text_dark: "#fdfcf9"
+  base_bg_dark: "#141320"
+  base_bg_2_dark: "#18181B"
+  base_bg_3_dark: "#27272A"
+  base_text_dark: "#EDEDED"
+  base_text_2_dark: "#A1A1AA"
+  logo_text_dark: "#EDEDED"
+  header_text_dark: "#EDEDED"
 
 fonts:
-  heading: "'Inter'"
-  base: "'Inter'"
+  heading: "'Source Sans 3'"
+  base: "'Source Sans 3'"
+  display: "'Lora'"
   monospace: "'Fira Mono'"
-  logo: "'Inter'"
+  logo: "'Source Sans 3'"
 
 logo:
   logo_text: "YEEUN SHIN."
@@ -152,7 +153,7 @@ darkmode:
 
 cookie_banner:
   enabled: true
-  show_manage_cookies_at_bottom: true
+  show_manage_cookies_at_bottom: false
 
 analytics:
   google_analytics_id: "G-0RLB95W610"
@@ -174,7 +175,7 @@ footer:
 
 bottom:
   enable_bottom: true
-  copyright_text: "© 2025 Yeeun Shin."
+  copyright_text: "© 2026 Yeeun Shin."
 
 # -------------------
 # Jekyll Scholar (migrated)
