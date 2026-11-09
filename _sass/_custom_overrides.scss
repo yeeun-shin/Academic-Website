@@ -1643,6 +1643,21 @@ body.page-research-publication .research-publication-content .research-content-b
 
   .header .container {
     height: 52px;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .page-publications #wrapper > .section > .container,
+  body.page-research-publication .container.research-publication-container,
+  .research-publication-legacy-body > .section > .container,
+  .research-publication-legacy-body > .teaser > .container {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .page-publications .heading .heading-heading h1 {
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+    line-height: 1.1;
   }
 
   .hero-section {
