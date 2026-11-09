@@ -1,0 +1,338 @@
+<!-- Teaser Section (YouTube, Image, or Video) -->
+{% if page.teaser_youtube_id or page.teaser_image or page.teaser_video %}
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+
+      {% if page.teaser_youtube_id %}
+        <!-- CASE 1: YouTube 비디오가 정의된 경우 -->
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/{{ page.teaser_youtube_id }}?autoplay=1&mute=1&loop=1&playlist={{ page.teaser_youtube_id }}&controls=0&showinfo=0&modestbranding=1" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+        </div>
+
+      {% elsif page.teaser_image %}
+        <!-- CASE 2: 이미지가 정의된 경우 -->
+        <img src="{{ site.baseurl }}/{{ page.teaser_image }}" alt="{{ page.teaser_image_alt | default: 'Teaser image' }}" style="width: 100%; border-radius: 10px;">
+
+      {% elsif page.teaser_video %}
+      <!-- CASE 3: 내장 비디오 파일이 정의된 경우 -->
+      <video id="teaser-video" autoplay muted loop controls playsinline width="100%">
+        <source src="{{ page.teaser_video | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% endif %}
+
+      <!-- 캡션은 어떤 경우든 공통으로 표시됩니다 -->
+      {% if page.teaser_caption %}
+        <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem;">{{ page.teaser_caption }}</h2>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ======================================================================= -->
+<!-- ============= ADDITIONAL DYNAMIC CONTENT BLOCKS SECTION =============== -->
+<!-- ======================================================================= -->
+
+{% if page.additional_content %}
+<section class="section">
+  <div class="container is-max-desktop">
+    
+    {% for block in page.additional_content %}
+      <div class="content-block content-block-{{ block.type }} {{ block.class }}">
+
+        {% case block.type %}
+          {% when 'main-heading' %}
+            <h2 class="title is-3">{{ block.text }}</h2>
+
+          {% when 'heading' %}
+            <h3 class="title is-4">{{ block.text }}</h3>
+
+          {% when 'paragraph' %}
+            <div class="content">
+              <p>{{ block.text | markdownify }}</p>
+            </div>
+
+          {% when 'image' %}
+            <figure class="image">
+              <img src="{{ site.baseurl }}{{ block.path }}" alt="{{ block.alt }}">
+              {% if block.caption %}
+                <figcaption class="has-text-centered">{{ block.caption }}</figcaption>
+              {% endif %}
+            </figure>
+
+            {% when 'columns-50-50' %}
+            <!-- ===== 50/50 COLUMNS 블록 (include 없이) ===== -->
+            <div class="columns">
+              
+              <!-- 왼쪽 컬럼 처리 -->
+              <div class="column">
+                {% for element in block.left.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption | markdownify | remove: '<p>' | remove: '</p>' | strip }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+
+              <!-- 오른쪽 컬럼 처리 -->
+              <div class="column">
+                {% for element in block.right.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption | markdownify | remove: '<p>' | remove: '</p>' | strip }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+
+          {% when 'columns-66-33' %}
+            <!-- ===== 66/33 COLUMNS 블록 (include 없이) ===== -->
+            <div class="columns">
+              
+              <!-- 왼쪽 (2/3) 컬럼 처리 -->
+              <div class="column is-two-thirds">
+                {% for element in block.left.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+
+              <!-- 오른쪽 (1/3) 컬럼 처리 -->
+              <div class="column is-one-third">
+                {% for element in block.right.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          {% when 'columns-33-66' %}
+            <!-- ===== 33/66 COLUMNS 블록===== -->
+            <div class="columns">
+              <div class="column is-one-third">
+                {% for element in block.left.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            <div class="column is-two-thirds">
+                {% for element in block.right.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          {% when 'columns-33-33-33' %}
+            <!-- ===== 33/33/33 COLUMNS 블록 ===== -->
+            <div class="columns">
+              
+              <!-- 첫 번째 컬럼 -->
+              <div class="column">
+                {% for element in block.left.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+
+              <!-- 두 번째 컬럼 -->
+              <div class="column">
+                {% for element in block.middle.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+
+              <!-- 세 번째 컬럼 -->
+              <div class="column">
+                {% for element in block.right.elements %}
+                  {% case element.type %}
+                    {% when 'heading' %}
+                      <h4 class="title is-5" style="margin-top: 1.5rem; margin-bottom: 1rem;">{{ element.content }}</h4>
+                    {% when 'text' %}
+                      <div class="content"><p>{{ element.content | markdownify }}</p></div>
+                    {% when 'image' %}
+                      <figure class="image">
+                        <img src="{{ site.baseurl }}{{ element.path }}" alt="{{ element.alt }}">
+                        {% if element.caption %}<figcaption class="has-text-centered">{{ element.caption }}</figcaption>{% endif %}
+                      </figure>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          
+        {% endcase %}
+      </div>
+    {% endfor %}
+
+  </div>
+</section>
+{% endif %}
+
+<!-- Youtube Video -->
+{% if page.youtube_id %}
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="publication-video">
+        <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" title="{{ page.title | escape }} video presentation" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Post-Video Image Section -->
+{% if page.post_video_image %}
+<section class="hero is-small is-light"> 
+  <div class="hero-body">
+    <div class="container">
+      {% if page.post_video_image_title %}
+        <h2 class="title is-3">{{ page.post_video_image_title }}</h2>
+      {% endif %}
+      <div class="columns is-centered has-text-centered">
+          <figure class="image">
+            <img src="{{ site.baseurl }}{{ page.post_video_image }}" alt="{{ page.post_video_image_alt | default: 'Post video image' }}">
+            {% if page.post_video_image_caption %}
+              <figcaption class="has-text-centered">{{ page.post_video_image_caption }}</figcaption>
+            {% endif %}
+          </figure>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Image carousel -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      {% if page.carousel_title %} 
+        <h2 class="title is-3">{{ page.carousel_title }}</h2>
+      {% endif %}
+      {% if page.image_carousel %} 
+      <div id="results-carousel" class="carousel results-carousel">
+        {% for item in page.image_carousel %}
+        <div class="item">
+          <img src="{{ site.baseurl }}/{{ item.image }}" alt="{{ item.alt | default: 'Carousel image' }}"/>
+          <h2 class="subtitle has-text-centered">
+            {{ item.caption }}
+          </h2>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+<!-- End image carousel -->
+
+<!-- Video carousel -->
+{% if page.video_carousel %}
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      {% if page.video_carousel %} <!-- 만약 video_carousel 목록이 Front Matter에 정의되어 있다면 -->
+      <h2 class="title is-3">More examples</h2> <!-- 비디오 캐러셀 제목도 변수로 처리할 수 있습니다 -->
+      <div id="video-carousel" class="carousel results-carousel"> <!-- id를 video-carousel로 변경! -->
+        {% for item in page.video_carousel %} <!-- 목록의 각 항목을 반복 -->
+        <div class="item">
+          <video poster="" autoplay controls muted loop height="100%">
+            <source src="{{ site.baseurl }}/{{ item.video }}" type="video/mp4">
+          </video>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+<!-- End video carousel -->
+ 
+<!-- BibTeX -->
+{% if page.bibtex %}
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="bibtex-heading">BibTeX</h2>
+    <div class="bibtex-code-block">
+      <button type="button" class="bibtex-copy" aria-label="Copy BibTeX citation">Copy</button>
+      <pre><code>{{ page.bibtex | escape }}</code></pre>
+    </div>
+  </div>
+</section>
+{% endif %}

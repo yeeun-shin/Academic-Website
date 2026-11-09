@@ -1,10 +1,10 @@
 ---
-layout: publication
+layout: research-publication
 title: "Spatial Chef: A Spatial Transforming VR Game with Full Body Interaction"
 
 authors:
   - name: Yeeun Shin
-    link: "https://yeeun-shin.com/" 
+    link: "https://yeeunshin.com/"
     equal_contrib: true
   - name: Yewon Lee
     equal_contrib: true
@@ -17,7 +17,12 @@ conference: "CHI 2023 Student Game Competition"
 equal_contrib_notice: false 
 
 paper_url: "https://doi.org/10.1145/3544549.3583826" 
+pdf_url: "/assets/pdf/SpatialChef.pdf"
 video_url: "https://youtu.be/1MqZkuYSov8?si=4pP3fqcSIGgG4TWn"
+
+awards:
+  - label: "Student Game Competition Finalist (Category Innovative Interfaces)"
+    url: "https://chi2023.acm.org/for-authors/student-game-competition/"
 
 teaser_video: "assets/video/Spatialchef_Teaser.mp4"
 
@@ -41,9 +46,9 @@ bibtex: |
 additional_content:
 ############# Motivation
   - type: main-heading 
-    text: "WHAT IF WE COULD PLAY WITH SPACE?"
+    text: "What if We Could Manipulate Space Itself?"
   - type: paragraph
-    text: "Most VR games emphasize object manipulation, treating space as a passive backdrop. Yet in VR, space is fundamental to immersion and presence. This project reimagines space as an active medium of interaction, inviting users to engage with the virtual environment as Space itself."
+    text: "Conventional VR interactions focus on manipulating objects, treating the surrounding environment as a passive backdrop. *Spatial Chef* explores a different paradigm: directly transforming room-scale virtual space through body movements. We developed a set of spatial interaction techniques grounded in how people perceive and manipulate near and distant spaces."
 
   - type: image
     path: "/assets/img/spatialchef/objectspace.png"
@@ -61,8 +66,8 @@ additional_content:
   - type: main-heading 
     text: "Formative Study"
   - type: paragraph
-    text: "|CHALLENGES| **1. Interaction Accessibility**: Interacting with VR environments can be ambiguous and challenging, often requiring players to focus on complex controls rather than the experience itself. **2. Spatial Perception**: Players may struggle to understand and manipulate near and far spaces intuitively within the virtual environment.
-      |APPROACH| To achieve this, a formative study was conducted to observe how players interacted and perceived near and far spaces in order to design game interaction. Insights obtained through thematic analysis of interview scripts and observed participants’ behavior during the study.|"
+    text: "|**RESEARCH QUESTION.** <br> How do people intuitively map body movements to transformations of near and distant virtual spaces?
+      |**METHOD.**  We conducted a formative study with 5 participants using bodystorming and Wizard-of-Oz prototyping. Participants enacted movements they associated with near and distant spatial transformations, allowing us to identify interaction patterns through behavioral observations and semi-structured interviews.|"
 
   - type: image
     path: "/assets/img/spatialchef/formative.gif"
@@ -71,10 +76,10 @@ additional_content:
 
 ############# Interaction Design 
   - type: heading 
-    text: "<br>Interaction Design"
+    text: "<br>Spatial Interaction Techniques"
 
   - type: paragraph
-    text: "Building on players’ perception of distant and near spatial transformations, I designed interaction gestures grounded in the sensing capabilities of the Oculus HMD and controllers. These gestures were implemented as actions distinguishable by head and hand positional data, providing a consistent and technically reliable method for spatial manipulation without additional tracking hardware."
+    text: "Building on the formative study findings, I developed **three body-driven interaction techniques for room-scale spatial manipulation**. I mapped head and controller movements to distinct spatial transformations, including collision-based slicing, direct dragging, and whole-body expansion and contraction. These techniques reflect users’ perceptions of near and distant space and operate using Oculus HMD and controller tracking without additional hardware."
   - type: image
     path: "/assets/img/spatialchef/interactiond.gif"
     alt: "Spatial Chef Three Interaction"
@@ -85,7 +90,7 @@ additional_content:
     text: "<br>Game Phase Design"
   
   - type: paragraph
-    text: "Our game is designed to seamlessly shift the player's focus from objects to space. It's played in three phases to inspire and provide enjoyment in interacting with the game space."
+    text: "To shift players’ attention from individual objects to the surrounding space, we structured the game into three phases: Preparation, Cooking, and Serving. Each phase progressively introduces, supports, and reflects on spatial interaction."
 
   - type: 'columns-33-33-33'
     left:
@@ -95,7 +100,7 @@ additional_content:
           alt: "Spatial Chef Phase 1"
         - type: 'text'
           content: |
-            **1. Preparation Phase for shifting focus and motivation** As players choose materials and music for the room-scale space, their focus shifts naturally from objects to the space itself, sparking a desire for customization and motivating them to actively transform the space to their taste in the next step.
+            **1. Preparation Phase: Shifting Focus** Players select materials and music for the virtual room, shifting their attention from individual objects to the surrounding space and motivating them to customize it.
     middle:
       elements:
         - type: image 
@@ -103,7 +108,7 @@ additional_content:
           alt: "Spatial Chef Phase 2"
         - type: 'text'
           content: |
-            **2. Cooking Phase for spatial interaction** In this stage, players use their bodies to transform the surrounding room-scale space—slicing, stretching, inflating, or shrinking it. To maintain focus on spatial interaction, all objects move only with the room rather than independently.
+            **2. Cooking Phase: Spatial Manipulation** Players transform the surrounding room through body movements, including slicing, stretching, inflating, and shrinking. To maintain the focus on spatial interaction, objects transform together with the room rather than independently.
     right:
       elements:
         - type: image 
@@ -111,7 +116,7 @@ additional_content:
           alt: "Spatial Chef Phase 3"
         - type: 'text'
           content: |
-            **3. Serving Phase for enhancing the fun** This stage deepens spatial fun by replaying players’ movements as a reward. The transformed space is served as a miniature dish with a recipe that reflects their action. It enriches spatial engagement by letting players view the space as a whole and relive their movements from the outside.
+            **3. Serving Phase: Rewarding Spatial Exploration** The transformed space is presented as a miniature dish with a personalized recipe mapping the player's choices and actions to cooking attributes: number of interactions to difficulty, and final spatial configuration to taste. This allows players to revisit their spatial transformations and reflect on the resulting creation.
 
   - type: image
     path: "/assets/img/spatialchef/concept.png"
@@ -123,7 +128,7 @@ additional_content:
     text: "<br>Implementation"
 
   - type: paragraph
-    text: "We devised techniques to maintain the structural and visual coherence of the space as the player transforms it in order to preserve the experience of manipulating a space within a space. Used Oculus Quest 2 and Unity XR toolkits for implementation."
+    text: "We implemented a room-scale spatial transformation system in Unity for Oculus Quest 2, enabling users to reshape the surrounding environment while preserving its structural and visual continuity. Rather than simply separating sliced meshes, the system dynamically generates connecting geometry between displaced wall segments to maintain a continuous spatial structure. UV coordinates are mapped onto the newly generated surfaces to preserve visual coherence during deformation."
   - type: image
     path: "/assets/img/spatialchef/implementation.png"
     alt: "Spatial Chef Implementation"
@@ -148,7 +153,7 @@ additional_content:
     alt: "Spatial Chef results"
   
   - type: heading 
-    text: "<br>Qualitative Findings (Thematic Analysis)"
+    text: "<br>Qualitative Findings (thematic analysis)"
   - type: 'columns-33-33-33'
     left:
       elements:
@@ -165,7 +170,7 @@ additional_content:
           content: 'Being Both a Player and an Absolute.'
         - type: 'text'
           content: |
-            The participants felt a sense of absolute power and presence as players when manipulating the space, which was a unique experience that made them more aware of their surroundings. Similarly, the quantitative evaluation also reflected a high level of presence, with an average score of 5.11, consistent with the interview statements.
+            The participants felt a sense of absolute power and presence as players when manipulating the space, which was a unique experience that made them more aware of their surroundings. The quantitative evaluation also indicated a sense of presence (M = 5.10, SD = 1.46), consistent with participants’ interview responses.
             > "Space is a larger concept than objects. So I had a strong sense of being in the VR space because I was aware of everything around me rather than just the small objects... At the same time, I felt like I had absolute power because I could bend space with my gestures alone."
     right:
       elements:

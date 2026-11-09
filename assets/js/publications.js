@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Toggle functionality for all buttons
-  const buttons = document.querySelectorAll('.publications .links .btn');
+  // Support both the legacy Bootstrap buttons and the compact publication links.
+  const buttons = document.querySelectorAll('.publications .links .btn, .publications .links .publication-link');
 
   buttons.forEach(function (button) {
     button.addEventListener('click', function (event) {
@@ -15,14 +15,24 @@ document.addEventListener('DOMContentLoaded', function () {
                          this.classList.contains('video') ? 'video' : null;
 
       if (buttonType) {
-        const entry = this.closest('.row');
+        const entry = this.closest('.publication-row, .row');
+        if (!entry) return;
+
         const targetDiv = entry.querySelector('.' + buttonType + '.hidden');
 
         if (targetDiv) {
           targetDiv.classList.toggle('open');
 
           if (buttonType === 'abstract') {
-            this.textContent = targetDiv.classList.contains('open') ? 'Hide Abstract' : 'Abstract';
+            const isOpen = targetDiv.classList.contains('open');
+            const toggleIcon = this.querySelector('.publication-toggle-icon');
+
+            this.setAttribute('aria-expanded', String(isOpen));
+            if (toggleIcon) {
+              toggleIcon.textContent = isOpen ? '▾' : '▸';
+            } else {
+              this.textContent = isOpen ? 'Hide Abstract' : 'Abstract';
+            }
           } else if (buttonType === 'bibtex') {
             this.textContent = targetDiv.classList.contains('open') ? 'Hide BibTeX' : 'BibTeX';
           } else if (buttonType === 'video') {
@@ -34,4 +44,5 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
 });

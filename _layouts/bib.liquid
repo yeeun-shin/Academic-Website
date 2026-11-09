@@ -19,268 +19,186 @@
 {% else %}
 
   <!-- ================== REGULAR PUBLICATION LAYOUT ================== -->
-<div class="publication-entry"> 
-<div class="row mb-1 align-items-start">
-  {% if site.enable_publication_thumbnails %}
-    <div class="col col-sm-5 abbr ps-0 mb-0">
-      {% if entry.preview %}
-        {% if entry.project_page %}
-      <a href="{{ entry.project_page | relative_url }}">
-        {% if entry.preview contains '://' %}
-          <img class="preview img-fluid rounded" src="{{ entry.preview }}" alt="{{ entry.title }}">
-        {% else %}
-          {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
-          <img class="preview img-fluid rounded" src="{{ entry_path | relative_url }}" alt="{{ entry.title }}">
-        {% endif %}
-      </a>
-    {% else %}
-      {% if entry.preview contains '://' %}
-        <img class="preview img-fluid rounded" src="{{ entry.preview }}" alt="{{ entry.title }}">
-      {% else %}
-        {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
-        <img class="preview img-fluid rounded" src="{{ entry_path | relative_url }}" alt="{{ entry.title }}">
-      {% endif %}
-    {% endif %}
-      {% endif %}
-      {% if entry.abbr %}
-        {% if site.data.venues[entry.abbr] %}
-          {% assign venue_style = null %}
-          {% if site.data.venues[entry.abbr].color != blank %}
-            {% assign venue_style = site.data.venues[entry.abbr].color | prepend: 'style="background-color:' | append: '"' %}
-          {% endif %}
-          <abbr
-            class="badge badge-primary rounded w-100"
-            {% if venue_style %}
-              {{ venue_style }}
-            {% endif %}
-          >
-            {% if site.data.venues[entry.abbr].url %}
-              <a href="{{ site.data.venues[entry.abbr].url }}">{{ entry.abbr }}</a>
+  <div class="publication-entry">
+    <div class="publication-row{% unless site.enable_publication_thumbnails and entry.preview %} publication-row-no-image{% endunless %}">
+      {% if site.enable_publication_thumbnails and entry.preview %}
+        <div class="publication-image">
+          {% if entry.project_page %}<a href="{{ entry.project_page | relative_url }}">{% endif %}
+            {% if entry.preview contains '://' %}
+              <img class="preview" src="{{ entry.preview }}" alt="{{ entry.title }}">
             {% else %}
-              <div>{{ entry.abbr }}</div>
+              {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
+              <img class="preview" src="{{ entry_path | relative_url }}" alt="{{ entry.title }}">
             {% endif %}
-          </abbr>
-        {% else %}
-          <abbr class="badge badge-primary rounded w-100">{{ entry.abbr }}</abbr>
-        {% endif %}
-      {% endif %}
-    </div>
-  {% endif %}
-
-  <!-- Entry bib key -->
-  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-7{% else %}col-sm-10{% endif %} pe-0">
-    <!-- Title -->
-    <div class="title h5 mb-2">
-      {% if entry.project_page %}
-        <a href="{{ entry.project_page | relative_url }}">{{ entry.title }}</a>
-      {% else %}
-        {{ entry.title }}
-      {% endif %}
-    </div>
-
-    <!-- Author -->
-    <div class="author mb-2">
-      {% assign author_array_size = entry.author_array | size %}
-      {% assign author_array_limit = author_array_size %}
-      {% if site.max_author_limit and author_array_size > site.max_author_limit %}
-        {% assign author_array_limit = site.max_author_limit %}
+          {% if entry.project_page %}</a>{% endif %}
+        </div>
       {% endif %}
 
-      {% for author in entry.author_array limit: author_array_limit %}
-        {% assign author_is_self = false %}
-        {% assign author_last_name = author.last | regex_replace: '[*∗†‡§¶‖&^]', '' %}
-        {% assign author_last_html = author.last | regex_replace: '([*∗†‡§¶‖&^]+)', '<sup>\1</sup>' %}
-        {% if site.scholar.last_name contains author_last_name %}
-          {% if site.scholar.first_name contains author.first %}
-            {% assign author_is_self = true %}
-          {% endif %}
-        {% endif %}
-        {% assign coauthor_url = null %}
-        {% assign clean_last_name = author_last_name | downcase | remove_accents %}
-        {% if site.data.coauthors[clean_last_name] %}
-          {% for coauthor in site.data.coauthors[clean_last_name] %}
-            {% if coauthor.firstname contains author.first %}
-              {% assign coauthor_url = coauthor.url %}
-              {% break %}
-            {% endif %}
-          {% endfor %}
+      <div id="{{ entry.key }}" class="publication-content {{ entry.key }}">
+        {% assign venue_label = entry.series | default: entry.abbr | default: entry.year %}
+        {% if venue_label %}
+          {% assign venue_parts = venue_label | split: ' ' %}
+          {% assign venue_primary = venue_parts | slice: 0, 2 | join: ' ' %}
+          {% assign venue_detail = venue_parts | slice: 2, 20 | join: ' ' %}
+          <div class="publication-venue">
+            <span class="publication-venue-primary">{{ venue_primary }}</span>
+            {% if venue_detail != empty %}<span class="publication-venue-detail">{{ venue_detail }}</span>{% endif %}
+          </div>
         {% endif %}
 
-        {% if forloop.first == false %}
-          {% if forloop.length > 2 %}
-            {% if forloop.last %},&nbsp;and&nbsp;{% else %},&nbsp;{% endif %}
-          {% else %}&nbsp;and&nbsp;{% endif %}
-        {% endif %}
-
-        <span style="display: inline-block;">
-        {% if author_is_self %}
-          <em>{{ author.first }} {{ author_last_html }}</em>
-        {% else %}
-          {% if coauthor_url %}
-            <a href="{{ coauthor_url }}">{{ author.first }} {{ author_last_html }}</a>
+        <div class="title">
+          {% if entry.project_page %}
+            <a href="{{ entry.project_page | relative_url }}">{{ entry.title }}</a>
           {% else %}
-            {{ author.first }} {{ author_last_html }}
+            {{ entry.title }}
           {% endif %}
+        </div>
+
+        <div class="author">
+          {% assign author_array_size = entry.author_array | size %}
+          {% assign author_array_limit = author_array_size %}
+          {% if site.max_author_limit and author_array_size > site.max_author_limit %}
+            {% assign author_array_limit = site.max_author_limit %}
+          {% endif %}
+
+          {% for author in entry.author_array limit: author_array_limit %}
+            {% assign author_is_self = false %}
+            {% assign author_last_name = author.last | regex_replace: '[*∗†‡§¶‖&^]', '' %}
+            {% assign author_last_html = author.last | regex_replace: '([*∗†‡§¶‖&^]+)', '<sup>\1</sup>' %}
+            {% if site.scholar.last_name contains author_last_name %}
+              {% if site.scholar.first_name contains author.first %}
+                {% assign author_is_self = true %}
+              {% endif %}
+            {% endif %}
+            {% assign coauthor_url = null %}
+            {% assign clean_last_name = author_last_name | downcase | remove_accents %}
+            {% if site.data.coauthors[clean_last_name] %}
+              {% for coauthor in site.data.coauthors[clean_last_name] %}
+                {% if coauthor.firstname contains author.first %}
+                  {% assign coauthor_url = coauthor.url %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <span class="publication-author">
+              {%- if author_is_self -%}
+                <strong class="author-self">{{ author.first }} {{ author_last_html }}</strong>
+              {%- elsif coauthor_url -%}
+                <a href="{{ coauthor_url }}">{{ author.first }} {{ author_last_html }}</a>
+              {%- else -%}
+                {{ author.first }} {{ author_last_html }}
+              {%- endif -%}
+              {%- unless forloop.last -%}
+              {%- if forloop.length > 2 -%}
+                  {%- if forloop.rindex == 2 -%},&nbsp;and{%- else -%},{%- endif -%}
+                {%- else -%}&nbsp;and{%- endif -%}
+              {%- endunless -%}
+            </span>
+          {%- endfor %}
+
+          {% assign more_authors = author_array_size | minus: author_array_limit %}
+          {% if more_authors > 0 %}
+            , and
+            <span class="more-authors"
+              title="click to view {{ more_authors_hide }}"
+              onclick="
+                this.setAttribute('title', '');
+                const more_authors_text = this.innerHTML.trim() === '{{ more_authors_hide }}' ? '{{ more_authors_show }}' : '{{ more_authors_hide }}';
+                this.innerHTML = more_authors_text;
+              ">
+              {{ more_authors_hide }}
+            </span>
+          {% endif %}
+        </div>
+
+        {% if entry.award %}
+          {% assign award_html = entry.award | markdownify | remove: '<p>' | remove: '</p>' %}
+          {% assign award_html = award_html | replace: '🏆', '<i class="fa-solid fa-trophy award-icon" aria-hidden="true"></i>' %}
+          {% assign award_html = award_html | replace: '🏅', '<i class="fa-solid fa-medal award-icon" aria-hidden="true"></i>' %}
+          <div class="award-info">{{ award_html }}</div>
         {% endif %}
-        </span>
-      {% endfor %}
-      {% assign more_authors = author_array_size | minus: author_array_limit %}
-      {% if more_authors > 0 %}
-        , and
-        <span class="more-authors"
-          title="click to view {{ more_authors_hide }}"
-          onclick="
-            this.setAttribute('title', '');
-            const more_authors_text = this.innerHTML.trim() === '{{ more_authors_hide }}' ? '{{ more_authors_show }}' : '{{ more_authors_hide }}';
-            this.innerHTML = more_authors_text;
-        ">
-          {{ more_authors_hide }}
-        </span>
-      {% endif %}
-    </div>
 
-    <!-- Journal/Book title and date -->
-    {% assign proceedings = 'inproceedings,incollection' | split: ',' %}
-    {% assign thesis = 'thesis,mastersthesis,phdthesis' | split: ',' %}
-    {% if entry.type == 'article' %}
-      {% capture entrytype %}<em>{{ entry.journal }}</em>{% endcapture %}
-    {% elsif proceedings contains entry.type %}
-      {% capture entrytype %}<em>{{ entry.booktitle }}</em>{% endcapture %}
-    {% elsif thesis contains entry.type %}
-      {% capture entrytype %}<em>{{ entry.school }}</em>{% endcapture %}
-    {% else %}
-      {% capture entrytype %}{% endcapture %}
-    {% endif %}
-    {% if entry.month %}
-      {% capture entrymonth %}{{ " " }}{{ entry.month | capitalize }}{% endcapture %}
-    {% endif %}
-    {% if entry.year %}
-      {% capture entryyear %}{{ " " }}{{ entry.year }}{% endcapture %}
-    {% endif %}
-    {% if entry.location %}
-      {% capture entrytype %}{{ entrytype }}{{ ", " }}{{ entry.location }}{% endcapture %}
-    {% endif %}
-    {% if entry.additional_info %}
-      {% capture entrytype %}{{ entrytype }}{{ entry.additional_info | markdownify | remove: '<p>' | remove: '</p>' }}{% endcapture %}
-    {% endif %}
-    {% assign entrytype_text = entrytype | strip_html | strip %}
-    {% capture periodical %}{{ entrytype }}{% if entrytype_text != "" and entryyear != "" %}, {% endif %}{{ entrymonth }}{{ entryyear }}{% endcapture %}
-    <div class="periodical">
-      {{ periodical | strip }}
-    </div>
-    <div class="periodical">
-      {{ entry.note | strip }}
-    </div>
+        <div class="links publication-links">
+          {% if entry.abstract %}
+            <button
+              type="button"
+              class="abstract publication-link publication-toggle"
+              aria-expanded="false"
+              aria-controls="{{ entry.key }}-abstract"
+            >
+              <span class="publication-toggle-icon" aria-hidden="true">▸</span>
+              <span>Abstract</span>
+            </button>
+          {% endif %}
+          {% if entry.doi %}<a href="https://doi.org/{{ entry.doi }}" class="publication-link" target="_blank"><i class="fa-solid fa-link publication-link-icon" aria-hidden="true"></i><span>DOI</span></a>{% endif %}
+          {% if entry.pdf %}
+            {% if entry.pdf contains '://' %}
+              <a href="{{ entry.pdf }}" class="publication-link" target="_blank"><i class="fa-solid fa-file-lines publication-link-icon" aria-hidden="true"></i><span>PDF</span></a>
+            {% else %}
+              <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" class="publication-link" target="_blank"><i class="fa-solid fa-file-lines publication-link-icon" aria-hidden="true"></i><span>PDF</span></a>
+            {% endif %}
+          {% endif %}
+          {% if entry.video and site.enable_video_embedding %}
+            <a class="publication-link video" role="button"><i class="fa-solid fa-play publication-link-icon" aria-hidden="true"></i><span>Video</span></a>
+          {% elsif entry.video %}
+            <a href="{{ entry.video }}" class="publication-link" target="_blank"><i class="fa-solid fa-play publication-link-icon" aria-hidden="true"></i><span>Video</span></a>
+          {% endif %}
+          {% if entry.code %}<a href="{{ entry.code }}" class="publication-link" target="_blank"><i class="fa-solid fa-code publication-link-icon" aria-hidden="true"></i><span>Code</span></a>{% endif %}
+          {% if entry.project_page %}
+            <a href="{{ entry.project_page | relative_url }}" class="publication-link"><i class="fa-solid fa-globe publication-link-icon" aria-hidden="true"></i><span>Page</span></a>
+          {% endif %}
+          {% if entry.arxiv %}<a href="https://arxiv.org/abs/{{ entry.arxiv }}" class="publication-link" target="_blank"><i class="fa-solid fa-file-lines publication-link-icon" aria-hidden="true"></i><span>arXiv</span></a>{% endif %}
+          {% if entry.html %}
+            {% if entry.html contains '://' %}
+              <a href="{{ entry.html }}" class="publication-link" target="_blank"><i class="fa-solid fa-code publication-link-icon" aria-hidden="true"></i><span>HTML</span></a>
+            {% else %}
+              <a href="{{ entry.html | prepend: '/assets/html/' | relative_url }}" class="publication-link" target="_blank"><i class="fa-solid fa-code publication-link-icon" aria-hidden="true"></i><span>HTML</span></a>
+            {% endif %}
+          {% endif %}
+          {% if entry.supp %}
+            {% if entry.supp contains '://' %}
+              <a href="{{ entry.supp }}" class="publication-link" target="_blank"><i class="fa-solid fa-paperclip publication-link-icon" aria-hidden="true"></i><span>Supp</span></a>
+            {% else %}
+              <a href="{{ entry.supp | prepend: '/assets/pdf/' | relative_url }}" class="publication-link" target="_blank"><i class="fa-solid fa-paperclip publication-link-icon" aria-hidden="true"></i><span>Supp</span></a>
+            {% endif %}
+          {% endif %}
+          {% if entry.talk %}<a href="{{ entry.talk }}" class="publication-link" target="_blank"><i class="fa-solid fa-video publication-link-icon" aria-hidden="true"></i><span>Talk</span></a>{% endif %}
+          {% if entry.poster %}
+            {% if entry.poster contains '://' %}
+              <a href="{{ entry.poster }}" class="publication-link" target="_blank"><i class="fa-solid fa-images publication-link-icon" aria-hidden="true"></i><span>Poster</span></a>
+            {% else %}
+              <a href="{{ entry.poster | prepend: '/assets/pdf/' | relative_url }}" class="publication-link" target="_blank"><i class="fa-solid fa-images publication-link-icon" aria-hidden="true"></i><span>Poster</span></a>
+            {% endif %}
+          {% endif %}
+          {% if entry.slides %}
+            {% if entry.slides contains '://' %}
+              <a href="{{ entry.slides }}" class="publication-link" target="_blank"><i class="fa-solid fa-display publication-link-icon" aria-hidden="true"></i><span>Slides</span></a>
+            {% else %}
+              <a href="{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}" class="publication-link" target="_blank"><i class="fa-solid fa-display publication-link-icon" aria-hidden="true"></i><span>Slides</span></a>
+            {% endif %}
+          {% endif %}
+          {% if entry.website %}<a href="{{ entry.website }}" class="publication-link" target="_blank"><i class="fa-solid fa-globe publication-link-icon" aria-hidden="true"></i><span>Website</span></a>{% endif %}
+          {% if entry.library %}<a href="{{ entry.library }}" class="publication-link" target="_blank"><i class="fa-solid fa-building-columns publication-link-icon" aria-hidden="true"></i><span>Library</span></a>{% endif %}
+          {% if entry.blog %}<a href="{{ entry.blog }}" class="publication-link" target="_blank"><i class="fa-solid fa-rss publication-link-icon" aria-hidden="true"></i><span>Blog</span></a>{% endif %}
+          {% if entry.bibtex_show %}<a class="bibtex publication-link" role="button"><i class="fa-solid fa-book-open publication-link-icon" aria-hidden="true"></i><span>Bib</span></a>{% endif %}
+        </div>
 
-    <!-- Links/Buttons -->
-    <div class="links mt-1">
-      {% if entry.abstract %}
-        <a class="btn btn-sm btn-outline-primary abstract" role="button" onclick="">Abstract</a>
-      {% endif %}
-      {% if entry.doi %}
-        <a href="https://doi.org/{{ entry.doi }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">DOI</a>
-      {% endif %}
-      {% if entry.arxiv %}
-        <a href="http://arxiv.org/abs/{{ entry.arxiv }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">arXiv</a>
-      {% endif %}
-      {% if entry.bibtex_show %}
-        <a class="btn btn-sm btn-outline-primary bibtex" role="button">BibTeX</a>
-      {% endif %}
-      {% if entry.html %}
-        {% if entry.html contains '://' %}
-          <a href="{{ entry.html }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">HTML</a>
-        {% else %}
-          <a href="{{ entry.html | prepend: '/assets/html/' | relative_url }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">HTML</a>
-        {% endif %}
-      {% endif %}
-      {% if entry.pdf %}
-        {% if entry.pdf contains '://' %}
-          <a href="{{ entry.pdf }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">PDF</a>
-        {% else %}
-          <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">PDF</a>
-        {% endif %}
-      {% endif %}
-      {% if entry.supp %}
-        {% if entry.supp contains '://' %}
-          <a href="{{ entry.supp }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Supp</a>
-        {% else %}
-          <a href="{{ entry.supp | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Supp</a>
-        {% endif %}
-      {% endif %}
-      {% if entry.video and site.enable_video_embedding %}
-        <a class="btn btn-sm btn-outline-primary video" role="button">Video</a>
-      {% elsif entry.video %}
-        <a href="{{ entry.video }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Video</a>
-      {% endif %}
-      {% if entry.talk %}
-        <a href="{{ entry.talk }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Talk</a>
-      {% endif %}
-      {% if entry.blog %}
-        <a href="{{ entry.blog }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Blog</a>
-      {% endif %}
-      {% if entry.code %}
-        <a href="{{ entry.code }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Code</a>
-      {% endif %}
-      {% if entry.poster %}
-        {% if entry.poster contains '://' %}
-          <a href="{{ entry.poster }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Poster</a>
-        {% else %}
-          <a href="{{ entry.poster | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Poster</a>
-        {% endif %}
-      {% endif %}
-      {% if entry.slides %}
-        {% if entry.slides contains '://' %}
-          <a href="{{ entry.slides }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Slides</a>
-        {% else %}
-          <a href="{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Slides</a>
-        {% endif %}
-      {% endif %}
-      {% if entry.website %}
-        <a href="{{ entry.website }}" class="btn btn-sm btn-outline-primary" role="button" target="_blank">Website</a>
-      {% endif %}
-      {% if entry.library %}<a href="{{ entry.library }}" class="btn btn-sm btn-outline-primary" target="_blank">Library</a>{% endif %}
+        {% if entry.abstract %}<div id="{{ entry.key }}-abstract" class="abstract hidden"><p>{{ entry.abstract }}</p></div>{% endif %}
+        {% if entry.bibtex_show %}<div class="bibtex hidden"><pre><code>{{ entry.bibtex | hideCustomBibtex }}</code></pre></div>{% endif %}
 
-      {% if entry.project_page %}
-        <a href="{{ entry.project_page | relative_url }}" class="btn btn-sm btn-outline-primary">
-          <i class="fas fa-globe"></i> Page
-        </a>
-      {% endif %}
-      
-    </div>
-
-    {% if entry.award %}
-     <div class="award-info">
-        {{ entry.award | markdownify | remove: '<p>' | remove: '</p>' }}
-      </div>
-    {% endif %}
-
-
-    {% if entry.abstract %}
-      <!-- Hidden abstract block -->
-      <div class="abstract hidden">
-        <p>{{ entry.abstract }}</p>
-      </div>
-    {% endif %}
-
-    {% if entry.bibtex_show %}
-      <!-- Hidden bibtex block -->
-      <div class="bibtex hidden">
-        <pre><code>{{ entry.bibtex | hideCustomBibtex }}</code></pre>
-      </div>
-    {% endif %}
-
-    {% if entry.video and site.enable_video_embedding %}
-      <!-- Hidden video block -->
-      <div class="video hidden">
-        <div style="text-align: center;">
-          <video controls style="max-width: 100%;">
-            <source src="{{ entry.video }}" type="video/mp4">
-              Your browser does not support the video tag.
-          </video>
+        {% if entry.video and site.enable_video_embedding %}
+          <div class="video hidden">
+            <div style="text-align: center;">
+              <video controls style="max-width: 100%;">
+                <source src="{{ entry.video }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
             </div>
-         </div>
+          </div>
         {% endif %}
       </div>
     </div>
-  {% endif %}
-</div>
+  </div>
+
+{% endif %}

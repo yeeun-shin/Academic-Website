@@ -2,6 +2,7 @@
 layout: contact
 title: Contact
 permalink: "/contact/"
+published: false
 ---
 
 ## Contact Info

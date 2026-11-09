@@ -1,5 +1,6 @@
 ---
 layout: project-right
+published: false
 title: "Spatial Chef: A Spatial Transforming VR Game with Full Body Interaction"
 description: "In contrast subsymbolic processing specifies no such rules a priori and relies on emergent properties of processing units"
 date: 2023-04-20

@@ -1,5 +1,6 @@
 ---
 layout: project
+published: false
 title: "WonderScope: Practical Near-surface AR Device for Museum Exhibits"
 date: 2022-08-20
 weight: 2

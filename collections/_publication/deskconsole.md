@@ -1,5 +1,5 @@
 ---
-layout: publication
+layout: research-publication
 title: "Desk Console: Augmenting 3D Virtual Controls on Physical Desks for Immersive Authoring"
 # subtitle: "Augmenting 3D Virtual Controls on Physical Desks for Immersive Authoring"
 description: "A novel authoring interface that transforms 2D control panels into virtual 3D controls on a physical desk, enabling tangible spatial interaction."
@@ -11,7 +11,7 @@ keywords:
 
 authors:
   - name: Yeeun Shin
-    link: "https://yeeun-shin.com/" 
+    link: "https://yeeunshin.com/"
     equal_contrib: false
   - name: Seung Hyeon Han
   - name: Woohun Lee
@@ -20,6 +20,7 @@ conference: "CHI 2025 Interactivity - M.S. Thesis"
 equal_contrib_notice: false 
 
 paper_url: "https://doi.org/10.1145/3706599.3721165" 
+pdf_url: "/assets/pdf/DeskConsole.pdf"
 # code_url: "https://github.com/Yes-Yeeun-Shin/DeskConsole"
 slides_url: "/assets/pdf/Defense_Master_Thesis_ppt.pdf"
 video_url: "https://youtu.be/5QcrwW9Kr3g?si=KabvKkiTJLaT3AIl"
@@ -62,29 +63,49 @@ bibtex: |
 
 
 additional_content:
+  - type: columns-33-33-33
+    class: overview-summary
+    left:
+      elements:
+        - type: heading
+          content: "Motivation."
+        - type: text
+          content: "Iterative parameter refinement remains central to creative authoring, even with generative AI. In VR, mouse and raycasting interaction constrain direct, sustained manipulation, while mid-air hand interaction introduces fatigue and targeting instability. How can we support fluid, precise, and embodied parameter control in VR?"
+    middle:
+      elements:
+        - type: heading
+          content: "Approach."
+        - type: text
+          content: "<em>Desk Console</em> maps abstract GUI parameters to familiar physical actions, such as pressing, sliding, and rotating, through 3D controls integrated with an everyday desk. Spatially multiplexed controls enable direct bare-hand manipulation with passive haptic support."
+    right:
+      elements:
+        - type: heading
+          content: "Contribution."
+        - type: text
+          content: "A surface-grounded interaction approach that turns an everyday physical surface into a medium for immersive authoring. Our study shows how this design reshapes exploratory refinement through denser control sequences, emergent coarse-to-fine exploration, and reduced interaction demand"
+
 ############# INTERFACE
   - type: main-heading 
     text: "Desk Console Interface"
   
   - type: paragraph
-    text: "<em>Desk Console</em> is an immersive authoring interface that transforms 2D control panels into 3D virtual controls on a physical desk, enabling spatial interaction like a mixing console or cockpit. It integrates the desk as an interaction surface to merge physical and virtual elements, turning complex GUI operations into tangible manipulation. Passive haptic feedback provides stability, while intuitive 3D interactions foster creativity through exploratory and embodied workflows."
+    text: "<em>Desk Console</em> maps 2D GUI inputs (0D/1D/2D) to spatially multiplexed 3D controls on a physical desk. Familiar bare-hand actions, such as pressing, sliding, and rotating, enable direct parameter manipulation with passive haptic support and simultaneous access to multiple controls."
 
 
   - type: columns-50-50
+    class: interface-image-pair
     left:
       elements: 
         - type: image 
-          path: "/assets/img/deskconsole/Fig2_control_design.jpg"
+          path: "/assets/img/deskconsole/Fig2_control_design.png"
           alt: "3D Represented Controls Mapped from Categorized UI Input Types Image"
-        - type: text 
-          content: "Virtual 3D Control Design Mapped from 2D Panels"
+          # caption: "Control Mapping. 2D GUI inputs (0D/1D/2D) are mapped to 3D controls operated through familiar bare-hand actions, including pressing, sliding, and rotating."
     right:
       elements: 
         - type: image 
           path: "/assets/img/deskconsole/perspective.gif"
           alt: "3D Represented Controls Mapped from Categorized UI Input Types Image"
-        - type: text 
-          content: "Interactive Application Implementation"
+          # caption: "**Integrated Authoring Interface.** Spatially multiplexed 3D controls on a physical desk enable direct, multi-parameter manipulation with passive haptic support."
 
 ############# EVALUATION
   - type: main-heading 
@@ -100,7 +121,7 @@ additional_content:
           alt: "Desk Console User Study Procedure Image"
         - type: text 
           content: |
-            We used raycasting, a widely adopted method for interacting with virtual screens, as the baseline. The study employed a within-subjects design to account for order effects.
+            We conducted a within-subjects study (N=14), comparing <em>Desk Console</em>  with raycasting in an open-ended 3D scene composition task. We analyzed interaction logs, behavioral recordings, NASA-TLX, CSI, and interviews to examine parameter exploration, refinement strategies, and perceived workload.
     right:
       elements: 
         - type: image 
@@ -118,41 +139,55 @@ additional_content:
   - type: paragraph 
     text: "<br>"  
 
-  - type: columns-66-33
-    left:
-      elements: 
-        - type: image 
-          path: "/assets/img/deskconsole/Performance Indicators.png"
-          alt: "Performance Indicators Image"
-    right:
-      elements: 
-        - type: heading 
-          content: "Broader Control Exploration"
-        - type: text 
-          content: |
-            Users explored more controls within the same time, and adjusted the vertical slider and color picker significantly faster with Desk Console. They shifted from focusing on a single task to experimenting with multiple options, showing broader exploratory behavior.
-            > "I felt more comfortable with this(Desk Console), so I tried different controls earlier and experimented with more various options. "(P9)
+  - type: heading
+    text: "Finding 1. Denser and More Structured Control Interaction"
+  - type: paragraph
+    text: "Interaction logs reveal denser, more clustered control sequences with Desk Console, suggesting more sustained parameter adjustments. Participants completed tasks faster (466.8 vs. 665.5 s, p = .027) and switched between controls more frequently (6.8 vs. 4.3 transitions/min, p < .001) than with raycasting."
+  - type: image
+    path: "/assets/img/deskconsole/ismar-fig6-timelines.png"
+    alt: "Participant interaction timelines comparing control use with raycasting and Desk Console"
+    caption: "Interaction timelines show parameter usage over time"
 
+        
 
+  - type: heading
+    text: "Finding 2. Emergent Coarse-to-Fine Exploration"
+  - type: paragraph
+    text: "Color-picker trajectories reveal a coarse-to-fine pattern with Desk Console: broad repositioning followed by sustained local refinement. Raycasting showed less structured exploration, while stable-refinement episodes were more frequent with Desk Console (1.01 vs. 0.08/min, p < .001)."
   - type: columns-50-50
+    class: finding-color-image-pair
     left:
       elements: 
         - type: image 
-          path: "/assets/img/deskconsole/tlx.png"
-          alt: "NASA Task Load Index" 
-        - type: heading
-          content: "Motor-Cognitive Offloading"
-        - type: text
-          content: "<em>Desk Console</em> significantly reduced mental and physical demand, effort, and frustration compared to raycasting. Familiar desk-based actions and immediate tactile feedback helped offload cognitive load into embodied routines, shortening decisions and enabling smoother engagement."
+          path: "/assets/img/deskconsole/ismar-fig8-color-trajectories.png"
+          alt: "Color-picker trajectories and stable refinement clusters for all participants"
+          caption: "**Color-picker trajectories** Point size indicates dwell time; circles mark stable refinement (≥0.3 s). Desk Console shows concentrated clusters versus broad wandering."
     right:
       elements: 
+        - type: image 
+          path: "/assets/img/deskconsole/ismar-fig9-color-distance.png"
+          alt: "Cumulative color-distance trajectories comparing raycasting and Desk Console"
+          caption: "**Cumulative color-distance** Desk Console shows staircase patterns (plateaus: fine adjustments; jumps: coarse shifts), versus continuous slopes with raycasting."
+
+
+
+  - type: heading
+    text: "Finding 3. Lower Perceived Workload, Greater Exploration"
+  - type: columns-50-50
+    class: finding-workload-image-pair
+    left:
+      elements:
+        - type: image
+          path: "/assets/img/deskconsole/tlx.png"
+          alt: "NASA-TLX subscale scores comparing raycasting and Desk Console"
+          caption: "**NASA-TLX** Desk Console showed lower perceived workload on five of six subscales, attributed by participants to familiar desk-based actions and physical support."
+    right:
+      elements:
         - type: image
           path: "/assets/img/deskconsole/csi.png"
-          alt: "Creative Support Index"
-        - type: heading
-          content: "Embodied Interaction Supporting Creative Flow"
-        - type: text
-          content: "<em>Desk Console</em> significantly enhanced exploration, expressiveness, and immersion compared to raycasting. Tangible manipulation with passive haptic feedback enabled users to maintain spatial awareness, supporting motor-cognitive strategies for more engaged creative exploration."
+          alt: "Creativity Support Index subscale scores comparing raycasting and Desk Console"
+          caption: "**Creativity Support Index** Desk Console scored higher on all five subscales. Participants described the desk as a spatial reference for finer control and exploration."
+
  
 
 
@@ -170,7 +205,7 @@ additional_content:
           content: "Bimanual Manipulation"
         - type: text 
           content: |
-            Tactile feedback reinforces bimanual coordination, sustaining engagement.
+            Spatially multiplexed controls supported bimanual interaction.
             > "Buttons or something similar in a cognitive sense make it much easier... I feel like I could use both hands next time. Using both hands really lightens the load. "(P11)
   - type: columns-66-33
     left:
@@ -181,25 +216,25 @@ additional_content:
     right:
       elements: 
         - type: heading 
-          content: "Focused Visual Engagement"
+          content: "Reduced Visual Verification"
         - type: text 
           content: |
-            Users’ eye shifts were reduced between the control panel and the creation, resulting in shorter and more stable gaze patterns.
-            > "I get the sense that moving up and down is way less distracting for the eyes. With Desk Console, it feels secure in my hand, so I approached it with a similar mindset, much like how I'd work in Photoshop with a mouse, where I don't really look at the controls and just focus on the task at hand." (P6)
-  - type: columns-66-33
-    left:
-      elements: 
-        - type: image 
-          path: "/assets/img/deskconsole/trace.png"
-          alt: "Color Exploration Patterns in the Color Picker Image"
-    right:
-      elements: 
-        - type: heading 
-          content: "Color Exploration Patterns"
-        - type: text 
-          content: |
-            Interviews revealed distinct experiences with the color picker across the two interfaces. To examine this further, log data that captured traces on the color picker was visualized. The results show more frequent adjustments in raycasting, while Desk Console supported finer, adjacent color exploration.
-            > "I could easily find other shades of red and make decisions like, 'I should use this red color.'" (P11) 
+            Physical grounding helped users adjust parameters by feel, reducing the need to repeatedly check control values.
+            > “With Desk Console, it feels secure in my hand [...] I don’t really look at the controls and just focus on the task at hand.” (P6)
+  # - type: columns-66-33
+  #   left:
+  #     elements: 
+  #       - type: image 
+  #         path: "/assets/img/deskconsole/trace.png"
+  #         alt: "Color Exploration Patterns in the Color Picker Image"
+  #   right:
+  #     elements: 
+  #       - type: heading 
+  #         content: "Color Exploration Patterns"
+  #       - type: text 
+  #         content: |
+  #           Interviews revealed distinct experiences with the color picker across the two interfaces. To examine this further, log data that captured traces on the color picker was visualized. The results show more frequent adjustments in raycasting, while Desk Console supported finer, adjacent color exploration.
+  #           > "I could easily find other shades of red and make decisions like, 'I should use this red color.'" (P11) 
 
 
 ---

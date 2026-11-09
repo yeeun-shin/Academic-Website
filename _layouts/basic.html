@@ -6,7 +6,7 @@ body_classes: page-basic
 <div class="section">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-12 col-lg-9">
+      <div class="col-12{% unless page.wide_content %} col-lg-9{% endunless %}">
 
         <!-- 1. 페이지 제목과 설명을 표시하는 부분 -->
         {% include framework/heading.html
