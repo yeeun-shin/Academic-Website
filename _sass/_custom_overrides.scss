@@ -811,8 +811,14 @@ body {
 
 @media (max-width: 767.98px) {
   .bottom .bottom-inner {
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
+    gap: 0;
+    text-align: center;
+  }
+
+  .bottom .copyright {
+    padding: 0;
   }
 }
 
@@ -1641,18 +1647,49 @@ body.page-research-publication .research-publication-content .research-content-b
 
   .hero-section {
     padding-top: 2rem !important;
-    padding-bottom: 3.5rem !important;
+    padding-bottom: 2rem !important;
+    text-align: left;
   }
 
-  .hero-title {
-    margin-bottom: 1.25rem;
-    font-size: 2.2rem;
-    line-height: 1.2;
+  /* Keep the mobile introduction compact, with the portrait beside the name. */
+  .page-home .container {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
   }
 
-  .hero-description {
-    max-width: 38rem;
-    margin: 0 auto;
+  .page-home .hero-section .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(95px, 34%);
+    grid-template-areas: "title photo" "contact photo" "interests interests" "bio bio";
+    column-gap: 1rem;
+    align-items: start;
+    margin: 0;
+  }
+
+  .page-home .hero-sidebar,
+  .page-home #hero-text-column {
+    display: contents;
+  }
+
+  .page-home .hero-title {
+    grid-area: title;
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+    line-height: 1.1;
+    text-align: left;
+  }
+
+  .page-home .hero-details {
+    grid-area: interests;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .page-home .hero-description {
+    grid-area: bio;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    text-align: left;
   }
 
   .hero-description p {
@@ -1665,25 +1702,49 @@ body.page-research-publication .research-publication-content .research-content-b
     gap: 1rem;
   }
 
-  .publications .publication-image {
-    width: min(100%, var(--publication-thumbnail-width));
+  .page-home .publications .publication-image {
+    width: 100%;
   }
 
-  .profile-picture {
+  .page-home .profile-picture {
+    grid-area: photo;
     width: 100%;
-    height: 300px;
-    margin-bottom: 0;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    margin: 0;
     border-radius: 4px;
   }
 
-  .hero-sidebar {
+  .page-home .profile-contact {
+    grid-area: contact;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    text-align: left;
+  }
+
+  .page-home .profile-social-list {
+    gap: 0.5rem;
     padding-top: 0;
   }
 
-  .profile-contact {
-    width: 100%;
-    max-width: 22rem;
-    margin: 0 auto 2rem;
+  .page-home .profile-social-list a {
+    gap: 0.4rem;
+    max-width: 100%;
+  }
+
+  .page-home .profile-social-list a span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .page-home .home-recent li {
+    grid-template-columns: 4.4rem minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+
+  .page-home .publications ol.bibliography li .abstract p {
     text-align: left;
   }
 
@@ -1693,6 +1754,32 @@ body.page-research-publication .research-publication-content .research-content-b
 
   .research-publication-header h1 {
     font-size: 2rem;
+  }
+
+  /* Legacy project bodies have their own section padding and typography;
+     match the newer project pages and the header at mobile widths. */
+  .research-publication-legacy-body .section {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .research-publication-legacy-body .title,
+  .research-publication-legacy-body .content p {
+    font-family: var(--font-family-base);
+  }
+
+  .research-publication-legacy-body .title.is-3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .research-publication-legacy-body .content p {
+    line-height: 1.6;
+  }
+
+  .research-bibtex pre,
+  .research-publication-legacy-body #BibTeX pre {
+    font-size: 0.75rem;
   }
 
   .research-publication-abstract.has-side-gallery {
