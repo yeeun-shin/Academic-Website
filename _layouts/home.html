@@ -74,7 +74,7 @@ body_classes: page-home
       <div class="col-12 col-lg-12">
             <div class="section-divider">
       <div class="divider-content">
-        <h2 class="divider-title">PUBLICATIONS</h2>
+        <h2 class="divider-title">SELECTED PUBLICATIONS</h2>
         <!-- <p class="divider-keywords">
           <span>HCI</span>
           <span>·</span>
@@ -92,7 +92,8 @@ body_classes: page-home
 {% assign pub_page = site.pages | where: "name", "publications.md" | first %}
     {% if pub_page %}
     <div class="publications">
-        {% bibliography --query @*[keywords!=thesis] %}
+        {% bibliography --query @*[keywords=manuscript] %}
+        {% bibliography --query @*[selected=true] %}
     </div>
     {% endif %}
     

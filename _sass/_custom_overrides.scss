@@ -473,6 +473,10 @@ body {
   color: var(--color-brand) !important;
 }
 
+.hero-description .concept-term {
+  font-style: italic;
+}
+
 .hero-description a {
   color: var(--color-link-text) !important;
   font-weight: var(--body-link-font-weight);
@@ -546,6 +550,15 @@ body {
 .page-home .publications {
   padding-right: 0;
   padding-left: 0;
+}
+
+.publications .manuscript-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  color: var(--global-text-color-light);
+  font-size: 1.75rem;
 }
 
 .publications .publication-entry,

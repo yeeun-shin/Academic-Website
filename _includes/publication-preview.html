@@ -1,0 +1,10 @@
+{% assign preview_path = include.entry.preview %}
+{% unless preview_path contains '://' %}
+  {% assign preview_path = preview_path | prepend: '/assets/img/publication_preview/' | relative_url %}
+{% endunless %}
+{% assign preview_extension = include.entry.preview | downcase | split: '.' | last %}
+{% if preview_extension == 'mp4' or preview_extension == 'webm' or preview_extension == 'mov' %}
+  <video class="preview" src="{{ preview_path | escape }}" autoplay muted loop playsinline preload="metadata" aria-label="{{ include.entry.title | escape }}"></video>
+{% else %}
+  <img class="preview" src="{{ preview_path | escape }}" alt="{{ include.entry.title | escape }}">
+{% endif %}

@@ -8,7 +8,7 @@ wide_content: true
 ---
 
 <div class="publications">
-  {% bibliography --query @*[keywords!=thesis] %}
+  {% bibliography --query @*[keywords!=thesis&&keywords!=manuscript] %}
 </div>
 
 <div class="publications thesis-section">

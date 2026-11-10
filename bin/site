@@ -2,16 +2,35 @@
 set -euo pipefail
 
 project_root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+required_ruby="$(tr -d '[:space:]' < "$project_root/.ruby-version")"
 ruby_bin="$project_root/.ruby/bin/ruby"
 bundle_bin="$project_root/.ruby/bin/bundle"
 
 if [[ ! -x "$ruby_bin" || ! -x "$bundle_bin" ]]; then
-  ruby_bin="$(command -v ruby || true)"
-  bundle_bin="$(command -v bundle || true)"
+  # Prefer the version installed by rbenv even when a shell has not loaded its
+  # shims yet (for example, IDE tasks and non-interactive shells).
+  rbenv_bin="$(command -v rbenv || true)"
+  if [[ -z "$rbenv_bin" && -x /opt/homebrew/bin/rbenv ]]; then
+    rbenv_bin=/opt/homebrew/bin/rbenv
+  elif [[ -z "$rbenv_bin" && -x /usr/local/bin/rbenv ]]; then
+    rbenv_bin=/usr/local/bin/rbenv
+  fi
+
+  if [[ -n "$rbenv_bin" ]]; then
+    ruby_bin="$(RBENV_VERSION="$required_ruby" "$rbenv_bin" which ruby 2>/dev/null || true)"
+    bundle_bin="$(RBENV_VERSION="$required_ruby" "$rbenv_bin" which bundle 2>/dev/null || true)"
+  fi
+
+  # Fall back to an already active Ruby manager or PATH installation.
+  if [[ ! -x "$ruby_bin" || ! -x "$bundle_bin" ]]; then
+    ruby_bin="$(command -v ruby || true)"
+    bundle_bin="$(command -v bundle || true)"
+  fi
+
   if [[ -z "$ruby_bin" || -z "$bundle_bin" ]] ||
-    ! "$ruby_bin" -e 'exit(RUBY_VERSION == "3.1.6" ? 0 : 1)'; then
-    cat >&2 <<'EOF'
-Ruby 3.1.6 is required.
+    ! "$ruby_bin" -e 'exit(RUBY_VERSION == ARGV.fetch(0) ? 0 : 1)' "$required_ruby"; then
+    cat >&2 <<EOF
+Ruby $required_ruby is required.
 
 Install it into .ruby with ruby-build, or activate a Ruby manager that honors
 .ruby-version. This project never requires replacing /usr/bin/ruby.
