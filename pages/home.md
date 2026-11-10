@@ -19,7 +19,7 @@ hero:
   description: |
     I am currently a visiting researcher at <a class="hero-affiliation" href="https://www.gatech.edu/"><img class="hero-affiliation-icon" src="/assets/img/georgia-tech-icon.ico" alt="">Georgia Tech</a>, working with [Prof. Yalong Yang](https://ivi.cc.gatech.edu/pi.html). <br>
     I build and study <span class="text-theme-color"> XR interfaces that embed AI assistance in ongoing activity</span>. 
-    People often develop their intentions through action, yet AI assistants typically require explicit prompts. I investigate how AI can infer evolving intent from the actions people already use to think and work, then adapt interfaces and transform XR environments to support what people do next.
+    People often develop their intentions through action, yet AI assistants typically rely on explicit prompts. I investigate how AI can infer evolving intent from the actions people already use to think and work, then adapt interfaces and transform XR environments to support what people do next.
     My goal is to support <span class="text-light-color"> thinking through doing</span>, helping people develop their own ideas and make decisions without stopping to prompt AI or handing over control.
 
     Previously, I conducted AI interaction research at [Samsung Electronics](https://www.samsung.com/us/tvs/vision-ai-tv/), developing context-aware AI interfaces for Gemini-powered Smart TVs and analyzing interaction patterns from global deployments. I earned my [M.S. in HCI from KAIST](https://wonderlab.kaist.ac.kr/wonder) advised by Prof. Woohun Lee, and [B.S. in Materials Science and Engineering from POSTECH](https://mse.postech.ac.kr/en/).
