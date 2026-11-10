@@ -142,7 +142,7 @@ additional_content:
   - type: heading
     text: "Finding 1. Denser and More Structured Control Interaction"
   - type: paragraph
-    text: "Interaction logs reveal denser, more clustered control sequences with Desk Console, suggesting more sustained parameter adjustments. Participants completed tasks faster (466.8 vs. 665.5 s, p = .027) and switched between controls more frequently (6.8 vs. 4.3 transitions/min, p < .001) than with raycasting."
+    text: "Interaction timelines show denser control use over a shorter period with Desk Console, compared with sparser interactions spread over more time with raycasting. Participants completed the task faster (466.8 vs. 665.5 s, *p* = .027) and made more transitions between distinct controls per minute (6.8 vs. 4.3, *p* < .001). The timelines also show more clustered control sequences: participants often made consecutive adjustments within one control type before moving to another, while raycasting showed more fragmented and interleaved control use."
   - type: image
     path: "/assets/img/deskconsole/ismar-fig6-timelines.png"
     alt: "Participant interaction timelines comparing control use with raycasting and Desk Console"
